@@ -31,6 +31,12 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Repository.Pattern">
+      <HintPath>..\lib\Repository.Pattern.dll</HintPath>
+    </Reference>
+    <Reference Include="Repository.Pattern.Ef6">
+      <HintPath>..\lib\Repository.Pattern.Ef6.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
@@ -43,14 +49,6 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\Source\Repository.Pattern.Ef6\Repository.Pattern.Ef6.csproj">
-      <Project>{f68a1d19-93fb-47c1-a22b-42bea3e4fd8c}</Project>
-      <Name>Repository.Pattern.Ef6</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\..\Source\Repository.Pattern\Repository.Pattern.csproj">
-      <Project>{6e682a14-c872-4813-b620-76e108dea683}</Project>
-      <Name>Repository.Pattern</Name>
-    </ProjectReference>
     <ProjectReference Include="..\PriceTag.Entities\PriceTag.Entities.csproj">
       <Project>{96e083e4-d6c6-4d20-90a0-5bb226687f00}</Project>
       <Name>PriceTag.Entities</Name>
