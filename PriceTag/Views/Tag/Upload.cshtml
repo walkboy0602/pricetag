@@ -1,0 +1,142 @@
+﻿
+
+
+<div class="gallery" data-ng-controller="ListingImageCtrl">
+    <!-- Loading -->
+    <div cg-busy="myPromise"></div>
+
+    <!-- Alert -->
+    <div class="alert alert-{{alert.type}} alert-dismissable" data-ng-show="alert.display">
+        <a class="close" data-ng-click="alert.display=false" href="#">&times;</a>
+        <div data-ng-bind-html="alert.message"></div>
+    </div>
+
+    <form name="formUpload" method="post" enctype="multipart/form-data" action="/tag/upload" ng-upload>
+        <!-- No File -->
+        <div class="no-gallery" data-ng-show="!draftFiles.length && !files.length">
+            <div class="center">
+                <img src="http://detail.herokuapp.com/img/no-img-gallery.png" alt="no-gallery">
+                <p class="no-gallery-label">You don't have any images</p>
+                <p>Click 'Add Image' to attach photos or drag & drop your photos here.</p>
+                <div class="btn-glow primary fileinput-button">
+                    <i class="fa fa-plus"></i>
+                    <input id="file-input" name="image" type="file" multiple accept="image/*" />
+                    <span>Add new image</span>
+                </div>
+            </div>
+        </div>
+        <div class="gallery-wrapper" data-ng-show="files.length || draftFiles.length">
+            <div class="row gallery-row">
+                <!-- Image -->
+                <div class="col-xs-6 col-md-3 img-container" data-ng-repeat="file in files">
+                    <div class="img-box thumbnail {{file.CoverCss}}">
+                        <span class="icon edit" data-ng-click="edit(file)">
+                            <a><i class="gallery-edit"></i></a>
+                        </span>
+                        <span class="icon trash" data-ng-click="delete(file)">
+                            <i class="gallery-trash"></i>
+                        </span>
+                        <img data-ng-src="{{file.Url}}" class="img-responsive" alt="picture">
+                        <strong class="clearfix label-cover" data-ng-show="file.IsCover">
+                            <span>Cover</span>
+                        </strong>
+                    </div>
+                </div>
+                <!-- Spinner -->
+                <div data-ng-repeat="file in draftFiles">
+                    <div class="col-xs-6 col-md-4 img-container">
+                        <div class="img-box">
+                            <div class="spin-{{$index + 1}} img-spin-box"></div>
+                        </div>
+                    </div>
+                </div>
+                <!-- new image button -->
+                <div class="col-xs-6 col-md-4 img-container" data-ng-hide="totalFiles >= 8 || files.length >= 8">
+                    <label for="file-input">
+                        <div class="img-box thumbnail new-img">
+                            <i class="fa fa-plus fa-4x"></i>
+                            <input id="file-input" name="image" type="file" multiple="" accept="image/*">
+                        </div>
+                    </label>
+
+                    @*<div class="img-box thumbnail new-img">
+                            <label for="file-input">
+                                <div class="addnew">
+                                    <i class="fa fa-plus fa-4x"></i>
+                                </div>
+                            </label>
+                            <input id="file-input" name="image" type="file" multiple accept="image/*" />
+                        </div>*@
+                </div>
+            </div>
+        </div>
+    </form>
+
+    <!-- Modal - Delete Image -->
+    <div class="modal fade" id="deleteModal" tabindex="-1" role="dialog">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                    <h4 class="modal-title">Delete Image</h4>
+                </div>
+                <div class="modal-body">
+                    <h4 class="modal-title">Are you sure you want to delete - {{file.Description}} ?</h4>
+                </div>
+                <div class="modal-footer">
+                    <div class="pull-right">
+                        <button type="button" class="btn-glow" data-dismiss="modal">Close</button>
+                        <button type="button" class="btn-glow inverse" data-ng-click="deleteImage()">Delete</button>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade" id="editModal" tabindex="-1" role="dialog">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                    <h4 class="modal-title">Edit Image</h4>
+                </div>
+                <div class="modal-body">
+                    <form class="form-horizontal" role="form">
+                        <div class="form-group">
+                            <label for="input1" class="col-lg-2 control-label">Description:</label>
+                            <div class="col-lg-10">
+                                <input type="text" class="form-control" placeholder="Max 30 characters" maxlength="30" data-ng-model="file.Description">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="checkbox">
+                                <div class="col-md-10">
+                                    <label>
+                                        <input type="checkbox" data-ng-model="file.IsCover" />
+                                        Make this image as Cover Image
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn-glow" data-dismiss="modal">Close</button>
+                    <button type="button" class="btn-glow success btn-finish" data-ng-click="editImage()">Save changes</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+</div>
+@section Scripts {
+    @Scripts.Render("~/bundles/angular")
+    @Scripts.Render("~/bundles/fileupload")
+    <script>
+        window.data = {
+            id: 111
+        };
+    </script>
+}
